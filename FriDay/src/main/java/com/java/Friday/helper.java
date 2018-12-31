@@ -3,6 +3,7 @@ package com.java.Friday;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +17,17 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+import org.alicebot.ab.Bot;
+import org.alicebot.ab.Chat;
+import org.alicebot.ab.History;
+import org.alicebot.ab.MagicBooleans;
+import org.alicebot.ab.MagicStrings;
+import org.alicebot.ab.utils.IOUtils;
+
 public class helper extends JFrame implements ActionListener{
+
+	private static final boolean TRACE_MODE = false;
+	static String botName = "super";
 
 	JTextArea textArea;
 	JTextField textField;
@@ -60,11 +71,17 @@ public class helper extends JFrame implements ActionListener{
 		b.addActionListener(this);
 		p2.add(b);
 	}
+
 	public void actionPerformed(ActionEvent arg0) {
-		String body = textField.getText();
-		textArea.append("User --> "+body+"\n");
+		String body = "";
+		body = textField.getText();
+		System.out.println(body);
+		textArea.append("Tapu --> "+body+"\n");
 		textArea.setText(textArea.getText()+dateFormat.format(new Date())+"\n");
 		textField.setText("");
-	}
+		
+		BotBrain brain = new BotBrain();
+		String response = brain.brain(body);
 
+	}
 }
