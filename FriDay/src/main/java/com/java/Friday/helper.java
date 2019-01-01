@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,10 +18,7 @@ import javax.swing.ScrollPaneConstants;
 
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
-import org.alicebot.ab.History;
 import org.alicebot.ab.MagicBooleans;
-import org.alicebot.ab.MagicStrings;
-import org.alicebot.ab.utils.IOUtils;
 
 public class helper extends JFrame implements ActionListener{
 
@@ -36,7 +32,9 @@ public class helper extends JFrame implements ActionListener{
 	JLabel label;
 	JButton b;
 	DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
+	
+	Bot bot = new Bot("super", getResourcesPath());
+	
 	public void bot() {
 		JFrame frame = new JFrame();
 		//frame.setResizable(false);
@@ -73,15 +71,23 @@ public class helper extends JFrame implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		String body = "";
-		body = textField.getText();
-		System.out.println(body);
-		textArea.append("Tapu --> "+body+"\n");
-		textArea.setText(textArea.getText()+dateFormat.format(new Date())+"\n");
-		textField.setText("");
-		
 		BotBrain brain = new BotBrain();
-		String response = brain.brain(body);
-
+		Chat chat = setUpBrain();
+		brain.brain(textField, textArea, chat, bot);
+	}
+	
+	public Chat setUpBrain() {
+		MagicBooleans.trace_mode = TRACE_MODE;
+		Chat chatSession = new Chat(bot);
+		bot.brain.nodeStats();
+		return chatSession;
+	}
+	
+	private static String getResourcesPath() {
+		File currDir = new File(".");
+		String path = currDir.getAbsolutePath();
+		path = path.substring(0, path.length() - 2);
+		String resourcesPath = path + File.separator + "src" + File.separator + "main" + File.separator + "resources";
+		return resourcesPath;
 	}
 }
