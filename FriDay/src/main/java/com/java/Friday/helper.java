@@ -78,6 +78,8 @@ public class helper extends JFrame implements ActionListener{
 	
 	public Chat setUpBrain() {
 		MagicBooleans.trace_mode = TRACE_MODE;
+		bot.writeAIMLFiles();
+		bot.writeAIMLIFFiles();
 		Chat chatSession = new Chat(bot);
 		bot.brain.nodeStats();
 		return chatSession;
